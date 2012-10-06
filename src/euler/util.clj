@@ -19,11 +19,21 @@
   (reduce * nums))
 
 (def Σ sum)
-
 (def Π product)
 
-; TODO: make this work
-; (λ a -> (* 2 a))
+(defmacro λ
+  "turns this:
+      (λ a b -> * a b)
+  into this:
+      (fn [a b] (* a b))
+  also handles definitions like this:
+      (λ _ -> 42)
+  Can your #(...) do that? (possibly)"
+  [& stuff]
+  (let [[params [_ & body]] (split-with #(not= '-> %) stuff)]
+    (if (= 1 (count body))
+      `(fn [~@params] ~@body)
+      `(fn [~@params] (~@body)))))
 
 (def ಠ_ಠ 'ಠ_ಠ)
 
