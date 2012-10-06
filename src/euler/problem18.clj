@@ -1,7 +1,8 @@
 (ns euler.problem18)
 
 (def rows
-  [[95 64]
+  [[75]
+   [95 64]
    [17 47 82]
    [18 35 87 10]
    [20 4 82 47 65]
@@ -16,23 +17,16 @@
    [63 66 4 68 89 53 67 30 73 16 69 87 40 31]
    [4 62 98 27 23 9 70 98 73 93 38 53 60 4 23]])
 
-(def max1 [75])
-
-(defn best-of
-  [maxes n]
-  (cond (= n 0)
-        (first maxes)
-        (= n (count maxes))
-        (last maxes)
-        :else
-        (max (nth maxes n) (nth maxes (dec n)))))
+(defn expand-best
+  [maxes n v]
+  (+ v (cond (= n 0)
+             (first maxes)
+             (= n (count maxes))
+             (last maxes)
+             :else
+             (max (nth maxes n) (nth maxes (dec n))))))
 
 (defn solve []
-  (loop [maxes max1
-         [row & more-rows] rows]
-    (if row
-      (recur (map-indexed (fn [idx v]
-                            (+ v (best-of maxes idx)))
-                          row)
-             more-rows)
-      (apply max maxes))))
+  (apply max
+         (reduce #(map-indexed (partial expand-best %1) %2)
+                 rows)))
