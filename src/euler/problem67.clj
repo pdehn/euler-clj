@@ -8,7 +8,7 @@
                    #"\r?\n"))))
 
 (defn expand-best
-  [maxes n v]
+  [maxes n v]   
   (+ v (cond (= n 0)
              (first maxes)
              (= n (count maxes))
