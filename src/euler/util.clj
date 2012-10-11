@@ -32,6 +32,15 @@
   [nums]
   (reduce * nums))
 
+(defn modular [f base]
+  "Makes a modular arithemtic version of f"
+  (comp (λ x -> mod x base) f))
+
+(defn modular-exp [x y base]
+  "modular exponent, modularizes intermediate multiples
+  to avoid requiring intermediate inefficient bigints"
+  (reduce (modular * base) (repeat y x)))
+
 (def Σ sum)
 (def Π product)
 (def ಠ_ಠ 'ಠ_ಠ)

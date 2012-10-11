@@ -5,9 +5,7 @@
 (def mn (reduce *' (repeat 999 10)))
 
 (def fibs
-  ((fn f [a b]
-     (lazy-seq (cons a (f b (+' a b)))))
-   1 1))
+  ((fn f [a b] (lazy-seq (cons a (f b (+' a b))))) 1 1))
 
 (defn solve []
   (inc (ffirst (drop-while (λ [i x] -> < x mn)
