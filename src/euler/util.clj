@@ -45,6 +45,8 @@
 (def Π product)
 (def ಠ_ಠ 'ಠ_ಠ)
 
+(def disapproval 'ಠ_ಠ)
+
 (defn !
   [n]
   (reduce *' (range 1 (inc n))))
@@ -85,3 +87,22 @@
               (recur n'
                      (remove-nth vals k)
                      (conj acc (nth vals k))))))))
+
+(defn divides?
+  "Does d divide n?"
+  [d n]
+  (= (mod n d) 0))
+
+(defn multiples
+  ":: Number a => a -> [a]"
+  [n]
+  (map #(* n %) (iterate inc 0)))
+
+(def fibonacci
+  ((fn fib [a b]
+     (lazy-seq (cons a (fib b (+ a b))))) 0 1))
+
+(defn prime?
+  [n]
+  (>= 1 (count (divisors n))))
+
