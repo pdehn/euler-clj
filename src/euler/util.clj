@@ -102,7 +102,18 @@
   ((fn fib [a b]
      (lazy-seq (cons a (fib b (+ a b))))) 0 1))
 
-(defn prime?
-  [n]
-  (>= 1 (count (divisors n))))
+(def prime?
+  (memoize (fn [n]
+  (>= 1 (count (divisors n))))))
+
+(def primes
+  (letfn [(reinsert [table x prime]
+            (update-in table [(+ prime x)] conj prime))
+          (step [table d]
+            (if-let [factors (get table d)]
+              (recur (reduce #(reinsert %1 d %2) (dissoc table d) factors)
+                     (inc d))
+              (lazy-seq (cons d (step (assoc table (* d d) (list d))
+                                      (inc d))))))]
+    (step {} 2)))
 
